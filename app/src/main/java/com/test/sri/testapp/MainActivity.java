@@ -23,21 +23,22 @@ import retrofit.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
+    //initialising variables
+
     private ListView listView;
     List <NewsFeedListModel> sampleList;
     private String title = null;
     NewsFeedAdapter newsFeedAdapter;
-
     private ArrayAdapter<NewsFeedListModel> adapter;
-    private static final String TAG = "NewsFeedActivity";
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Method to retrive Json Data
         getData();
-
-
     }
 
         private void getData()
@@ -66,15 +67,11 @@ public class MainActivity extends AppCompatActivity {
                                     setTitle(title);
 
                                     if (response.body().rows != null && response.body().rows.size() > 0)
-
                                     {
-
                                         sampleList=response.body().rows;
                                         listView =  findViewById(R.id.main_list_view);
                                         adapter=new NewsFeedAdapter(MainActivity.this,R.id.main_list_view,sampleList);
                                         listView.setAdapter(adapter);
-
-
                                     }
                                 }
                                 catch (Exception e)
@@ -106,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu); //your file name
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -116,16 +113,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.menu_refresh) {
 
-
             Toast toast= Toast.makeText(this,"Please wait loading....",Toast.LENGTH_LONG);
             toast.show();
             getData();
 
         }
 
-
-            //do something
-            return true;
+        return true;
         }
 
 
