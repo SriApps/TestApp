@@ -39,14 +39,19 @@ public class MainActivity extends AppCompatActivity {
             sampleList=new ArrayList<>()  ;
 
             RetrofitApiService service = NewsFeedRetrofitClient.getInstance().getService();
-            if (service != null) {
+
+            if (service != null)
+            {
                 Call<NewsFeedModel> call = service.loadFeeds();
-                if (call != null) {
-                    //Async call of retrofit library which will download and parse the JSON
-                    call.enqueue(new Callback<NewsFeedModel>() {
+
+                if (call != null)
+                {
+                    //parsing the JSON data
+                    call.enqueue(new Callback<NewsFeedModel>()
+                    {
                         @Override
                         public void onResponse(Response<NewsFeedModel> response, Retrofit retrofit) {
-                            //Check whether response recieved is valid
+                            //Check if the response is null
                             if (response != null && response.body() != null) {
                                 try {
                                     title = response.body().title;
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (response.body().rows != null && response.body().rows.size() > 0) {
 
                                         sampleList=response.body().rows;
-                                        listView = (ListView) findViewById(R.id.main_list_view);
+                                        listView =  findViewById(R.id.main_list_view);
                                         adapter=new NewsFeedAdapter(MainActivity.this,R.id.main_list_view,sampleList);
                                         listView.setAdapter(adapter);
 
