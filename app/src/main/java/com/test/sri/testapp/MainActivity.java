@@ -44,20 +44,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Method to retrive Json Data
-        getData();
+        getData();//Method to retrieve Json Data
     }
 
         private void getData()
         {
             sampleList=new ArrayList<>()  ;
+            //Espresso Idling resource for testing
             countingIdlingResource.increment();
 
             RetrofitApiService service = NewsFeedRetrofitClient.getInstance().getService();
 
-            if (service != null)
-            {
+            if (service != null){
+
                 Call<NewsFeedModel> call = service.loadFeeds();
 
                 if (call != null)
@@ -91,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                             else {
+                                Toast toast= Toast.makeText(MainActivity.this,"Error Loading the page",Toast.LENGTH_LONG);
+                                toast.show();
 
                             }
                         }
@@ -102,9 +103,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                    Toast toast= Toast.makeText(MainActivity.this,"Error Loading the page",Toast.LENGTH_LONG);
+                    toast.show();
+
 
                 }
             } else {
+                Toast toast= Toast.makeText(MainActivity.this,"Please check your connection and try again",Toast.LENGTH_LONG);
+                toast.show();
 
             }
         }
@@ -113,27 +119,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
+        inflater.inflate(R.menu.main_menu, menu);//Menu Item to refresh the screen
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
-        if (id == R.id.menu_refresh) {
+        if (id == R.id.menu_refresh)
+        {
 
             Toast toast= Toast.makeText(this,"Please wait loading....",Toast.LENGTH_LONG);
             toast.show();
             getData();
 
         }
-
         return true;
         }
-
-
-
 
     }
 

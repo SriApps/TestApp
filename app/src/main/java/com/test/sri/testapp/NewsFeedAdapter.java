@@ -18,7 +18,6 @@ import java.util.List;
 
 public class NewsFeedAdapter extends ArrayAdapter<NewsFeedListModel> {
     private Activity activity;
-
     private List<NewsFeedListModel> newsFeedList;
 
 
@@ -36,24 +35,25 @@ public class NewsFeedAdapter extends ArrayAdapter<NewsFeedListModel> {
                 .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-
             // inflate UI from XML file
             convertView = inflater.inflate(R.layout.main_list_layout, parent, false);
             holder = new ViewHolder(convertView);
-
             convertView.setTag(holder);
-        } else {
+
+        }
+        else {
 
             holder = (ViewHolder) convertView.getTag();
         }
 
         NewsFeedListModel newsFeedListModel = getItem(position);
-
         holder.title.setText(newsFeedListModel.getTitle());
         holder.description.setText(newsFeedListModel.getDescription());
-        Picasso.with(activity).load(newsFeedListModel.getImageHref()).into(holder.image);
-
-
+        Picasso.with(activity)
+                .load(newsFeedListModel.getImageHref())
+                .error(R.drawable.sample)
+                .placeholder(R.drawable.sample)// Image to load when something goes wrong
+                .into(holder.image);
         return convertView;
     }
 

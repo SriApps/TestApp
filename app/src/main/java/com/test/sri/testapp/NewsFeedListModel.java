@@ -6,6 +6,7 @@ package com.test.sri.testapp;
 
 public class NewsFeedListModel {
 
+
     public String title;
     public String description;
     public String imageHref;
