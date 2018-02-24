@@ -1,6 +1,7 @@
 package com.test.sri.testapp;
 
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,10 +21,17 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
+
 
 public class MainActivity extends AppCompatActivity {
 
     //initialising variables
+    @VisibleForTesting
+    protected static final String ROW_TEXT = "Language";
+
+    CountingIdlingResource countingIdlingResource= new CountingIdlingResource("DATA");
 
     private ListView listView;
     List <NewsFeedListModel> sampleList;
@@ -44,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         private void getData()
         {
             sampleList=new ArrayList<>()  ;
+            countingIdlingResource.increment();
 
             RetrofitApiService service = NewsFeedRetrofitClient.getInstance().getService();
 
@@ -72,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                         listView =  findViewById(R.id.main_list_view);
                                         adapter=new NewsFeedAdapter(MainActivity.this,R.id.main_list_view,sampleList);
                                         listView.setAdapter(adapter);
+                                        countingIdlingResource.decrement();
                                     }
                                 }
                                 catch (Exception e)
